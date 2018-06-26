@@ -6,22 +6,33 @@
 #    By: jlowing <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/01 12:55:28 by jlowing           #+#    #+#              #
-#    Updated: 2018/06/04 10:27:24 by jlowing          ###   ########.fr        #
+#    Updated: 2018/06/25 09:58:36 by jlowing          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
+NAME=libft.a
 
-TAG = gcc
-FLAG = -Wall -Werror -Wextra
-SRC =	ft_mem{alloc,ccpy,chr,cmp,cpy,del,move,set}.c \
-	ft_lst{map,new,delone,del,add,iter}.c \
-	ft_is{alpha,print,alnum,ascii,digit}.c \
-	ft_str{iter,iteri}.c \
-	ft_str{map,mapi}.c \
-	ft_to{lower,upper}.c \
-	ft_put{char,str,endl,nbr}.c \
-	ft_put{char,str,endl,nbr}_fd.c \
+CC=gcc
+
+CFLAGS=-Wall -Werror -Wextra -O3
+
+RM=rm -f
+
+LDFLAGS=-L.
+
+LDLIBS=-lft
+
+HDDIRS=-I includes/
+
+SRC =	ft_memalloc.c ft_memccpy.c ft_memchr.c ft_memcmp.c ft_memcpy.c \
+	ft_memdel.c ft_memmove.c ft_memset.c \
+	ft_lstmap.c ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c \
+	ft_isalpha.c ft_isprint.c ft_isalnum.c ft_isascii.c ft_isdigit.c \
+	ft_striter.c ft_striteri.c \
+	ft_strmap.c ft_strmapi.c \
+	ft_tolower.c ft_toupper.c \
+	ft_putchar.c ft_putstr.c ft_putendl.c ft_putnbr.c \
+	ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
 	ft_atoi.c \
 	ft_bzero.c \
 	ft_strcat.c \
@@ -48,22 +59,21 @@ SRC =	ft_mem{alloc,ccpy,chr,cmp,cpy,del,move,set}.c \
 	ft_strsplit.c \
 	ft_itoa.c \
 
+OBJ=$(SRC:.c=.o)
 
-
-all: $(NAME)
-
-$(NAME):
-	@$(TAG) $(FLAG) -c $(SRC)
-	@ar rc $(NAME) *.o	
+$(NAME): includes/libft.h
+	$(CC) $(CFLAGS) -c $(SRC) $(HDDIRS)
+	@ar rc $(NAME) $(OBJ)	
 	@ranlib $(NAME)
 	@echo "Library created"
 
+all: $(NAME)
 clean:
-	@rm -rf *.o
+	@$(RM) $(OBJ)
 	@echo "Object files removed"
 
 fclean: clean
-	@rm -f libft.a
+	@$(RM) $(NAME)
 	@echo "Compiled files removed"
 
 re: fclean all
